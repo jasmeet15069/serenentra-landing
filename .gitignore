@@ -8,3 +8,5 @@ dist-ssr
 !.env.example
 .vercel
 npm-debug.log*
+
+.vercel

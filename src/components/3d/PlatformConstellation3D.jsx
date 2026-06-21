@@ -1,6 +1,6 @@
 import { Suspense, useMemo, useRef } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
-import { Environment } from '@react-three/drei'
+import { AdaptiveDpr } from '@react-three/drei'
 import * as THREE from 'three'
 
 /**
@@ -19,6 +19,8 @@ function Scene({ modules, progressRef }) {
   const nodeRefs = useRef([])
   const linesRef = useRef(null)
   const hub = useMemo(() => new THREE.Vector3(0, 0, 0), [])
+  // Reusable scratch vector so the per-frame loop allocates nothing (no GC churn).
+  const tmp = useMemo(() => new THREE.Vector3(), [])
 
   // Final (connected) ring positions + scattered (start) positions per module.
   const layout = useMemo(() => {
@@ -49,7 +51,7 @@ function Scene({ modules, progressRef }) {
 
     const posAttr = lineGeo.getAttribute('position')
     layout.forEach((l, i) => {
-      const cur = new THREE.Vector3().lerpVectors(l.scattered, l.settled, e)
+      const cur = tmp.lerpVectors(l.scattered, l.settled, e)
       const mesh = nodeRefs.current[i]
       if (mesh) {
         mesh.position.copy(cur)
@@ -97,17 +99,20 @@ function Scene({ modules, progressRef }) {
 export default function PlatformConstellation3D({ modules, progressRef, active = true }) {
   return (
     <Canvas
-      dpr={[1, 2]}
+      dpr={[1, 1.75]}
       frameloop={active ? 'always' : 'demand'}
+      performance={{ min: 0.5 }}
       camera={{ position: [0, 0, 7], fov: 45 }}
       gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}
       style={{ background: 'transparent' }}
     >
       <Suspense fallback={null}>
-        <ambientLight intensity={0.8} />
-        <directionalLight position={[3, 5, 4]} intensity={1} />
+        {/* Lights only — no HDR Environment fetch. Nodes are emissive so they pop regardless. */}
+        <ambientLight intensity={0.9} />
+        <hemisphereLight args={['#ffffff', '#e6d2bf', 0.5]} />
+        <directionalLight position={[3, 5, 4]} intensity={1.1} />
         <Scene modules={modules} progressRef={progressRef} />
-        <Environment preset="city" />
+        <AdaptiveDpr pixelated />
       </Suspense>
     </Canvas>
   )

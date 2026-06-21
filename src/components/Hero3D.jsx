@@ -35,8 +35,8 @@ export default function Hero3D() {
     <div ref={containerRef} className="relative h-full w-full" aria-hidden="true">
       {allow3D ? (
         <Suspense fallback={<StaticHeroVisual />}>
-          {/* Pause render loop off-screen; cap pixel ratio harder on phones. */}
-          <Hero3DScene active={inView} dpr={lowPower ? [1, 1.5] : [1, 2]} />
+          {/* Pause render loop off-screen; cap pixel ratio + simplify scene on phones. */}
+          <Hero3DScene active={inView} dpr={lowPower ? [1, 1.5] : [1, 2]} lowPower={lowPower} />
         </Suspense>
       ) : (
         <StaticHeroVisual />
