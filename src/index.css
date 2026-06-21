@@ -1,0 +1,117 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  html {
+    /* Lenis controls smooth scroll in JS; keep native fallback sane. */
+    scroll-behavior: auto;
+  }
+
+  html,
+  body {
+    /* Hard guard against accidental horizontal scroll on mobile (decorative blobs, marquee, etc.). */
+    overflow-x: clip;
+    max-width: 100%;
+  }
+
+  body {
+    @apply bg-cream text-espresso font-sans antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Lenis smooth-scroll baseline (recommended setup). */
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+  .lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
+  }
+  .lenis.lenis-stopped {
+    overflow: hidden;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-display tracking-tight;
+  }
+
+  /* Visible focus states everywhere (PRD accessibility / WCAG AA). */
+  :where(a, button, input, select, textarea, [tabindex]):focus-visible {
+    outline: 2px solid theme('colors.clay.600');
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  ::selection {
+    background: theme('colors.clay.200');
+    color: theme('colors.espresso');
+  }
+}
+
+@layer components {
+  .container-mhms {
+    @apply mx-auto w-full max-w-content px-5 sm:px-6 lg:px-8;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold
+      transition-all duration-200 focus-visible:outline-none;
+  }
+  .btn-primary {
+    @apply btn bg-clay-500 text-white shadow-soft hover:bg-clay-600 hover:shadow-lift active:scale-[0.98];
+  }
+  .btn-ghost {
+    @apply btn border border-espresso/15 bg-transparent text-espresso hover:border-espresso/40 hover:bg-espresso/[0.03];
+  }
+
+  .eyebrow {
+    @apply inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-clay-600;
+  }
+
+  .section {
+    @apply scroll-mt-20 py-16 sm:py-20 lg:py-28;
+  }
+
+  .card {
+    @apply rounded-xl2 border border-espresso/[0.07] bg-white shadow-soft;
+  }
+
+  /* Scroll-reveal base — JS adds .is-visible (PRD 6 subtle motion). */
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+  }
+  .reveal.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Reduced motion: kill reveal transitions + decorative animation (PRD 6A.5). */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}

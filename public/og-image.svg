@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <!-- PRD 7.15: social share image (1200x630). Placeholder — swap for a richer branded asset if desired. -->
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FBF7F2"/>
+      <stop offset="1" stop-color="#F2E9DE"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <circle cx="980" cy="150" r="280" fill="#F8E0D5" opacity="0.7"/>
+  <g transform="translate(90 150)">
+    <rect width="64" height="64" rx="14" fill="#C2613F"/>
+    <text x="32" y="46" font-family="Georgia, serif" font-size="40" font-weight="700" fill="#FBF7F2" text-anchor="middle">M</text>
+    <text x="90" y="48" font-family="Georgia, serif" font-size="44" font-weight="700" fill="#2B211B">MHMS</text>
+  </g>
+  <text x="90" y="350" font-family="Georgia, serif" font-size="72" font-weight="700" fill="#2B211B">Run your entire hotel</text>
+  <text x="90" y="430" font-family="Georgia, serif" font-size="72" font-weight="700" fill="#C2613F">from one platform.</text>
+  <text x="92" y="500" font-family="Arial, sans-serif" font-size="30" fill="#2B211B" opacity="0.7">PMS · Bookings · Channels · Payments · Reporting</text>
+</svg>
