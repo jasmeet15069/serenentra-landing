@@ -1,5 +1,5 @@
 /**
- * MHMS Landing Page — single source of content (PRD Section 8: "Content separation").
+ * Serenentra Landing Page — single source of content (PRD Section 8: "Content separation").
  *
  * Edit copy / numbers HERE, not inside components.
  *
@@ -24,16 +24,18 @@ export const config = {
   licensingModel: 'both', // 'subscription' | 'both' — chosen: both (SixOrbit-style). PRD 5.11A.
   // Contact details (PRD 7.9, 5.13). WhatsApp uses intl format, digits only, no +.
   whatsappNumber: '919891475624', // 91 (India) + 9891475624
-  whatsappPrefill: "Hi, I'd like to know more about MHMS",
+  whatsappPrefill: "Hi, I'd like to know more about Serenentra",
   salesPhone: '+91 98914 75624',
-  salesEmail: 'sales@mhms.example',
+  salesEmail: 'sales@serenentra.example',
   // PLACEHOLDER live-chat embed (PRD 7.11) — leave null to skip; no fake bubble.
   liveChat: null, // e.g. { provider: 'crisp', websiteId: 'xxxx' }
 }
 
 export const brand = {
-  name: 'MHMS',
-  fullName: 'Master Hotel Management System',
+  name: 'Serenentra',
+  // Serenentra is the company/platform brand; the hotel management system is the product.
+  fullName: 'Serenentra',
+  productName: 'MHMS', // the hotel-management product Serenentra provides
   tagline: 'The all-in-one platform to run your hotel.',
 }
 
@@ -61,7 +63,7 @@ export const hero = {
   eyebrow: 'All-in-one Hotel Management System',
   title: 'Run your entire hotel from one platform.',
   subtitle:
-    'MHMS brings your front desk, reservations, housekeeping, channel manager, payments and reporting together in one cloud system — so your team spends less time switching tools and more time looking after guests.',
+    'Serenentra brings your front desk, reservations, housekeeping, channel manager, payments and reporting together in one cloud system — so your team spends less time switching tools and more time looking after guests.',
   primaryCta: { label: 'Request a Demo', href: '#demo' },
   secondaryCta: { label: 'Watch a 2-min overview', href: '#video' },
   // Trust strip — PLACEHOLDER sample numbers (PRD 5.2). Swap for verified figures.
@@ -87,8 +89,8 @@ export const logoBar = {
 export const platform = {
   eyebrow: 'One unified platform',
   title: 'Everything your property runs on, finally in one place.',
-  body: 'MHMS unifies your Property Management System (PMS), Booking Engine, Channel Manager, Payments and Reporting into a single cloud platform. No more disconnected tools, duplicate data entry, or rates that drift out of sync. One login, one source of truth, for one property or a hundred.',
-  // Nodes that orbit the central MHMS hub in the 3D constellation.
+  body: 'Serenentra unifies your Property Management System (PMS), Booking Engine, Channel Manager, Payments and Reporting into a single cloud platform. No more disconnected tools, duplicate data entry, or rates that drift out of sync. One login, one source of truth, for one property or a hundred.',
+  // Nodes that orbit the central Serenentra hub in the 3D constellation.
   modules: ['PMS', 'Booking Engine', 'Channel Manager', 'Payments', 'Reporting'],
 }
 
@@ -145,10 +147,10 @@ export const features = [
 ]
 
 // ---------------------------------------------------------------------------
-// Benefits / Why MHMS (PRD 5.6) — outcome framed. STATS ARE PLACEHOLDERS.
+// Benefits / Why Serenentra (PRD 5.6) — outcome framed. STATS ARE PLACEHOLDERS.
 // ---------------------------------------------------------------------------
 export const benefits = {
-  eyebrow: 'Why MHMS',
+  eyebrow: 'Why Serenentra',
   title: 'Less busywork. More direct revenue.',
   items: [
     {
@@ -220,7 +222,7 @@ export const solutions = [
 export const integrations = {
   eyebrow: 'Ecosystem',
   title: 'Connects with the tools you already use.',
-  body: 'MHMS plays well with the rest of your stack — from the OTAs you sell on to the accounting tools you reconcile in.',
+  body: 'Serenentra plays well with the rest of your stack — from the OTAs you sell on to the accounting tools you reconcile in.',
   categories: [
     { name: 'OTAs', examples: 'Booking.com, Expedia, Agoda, MakeMyTrip' },
     { name: 'Payment gateways', examples: 'Razorpay, Stripe, PayU' },
@@ -353,7 +355,7 @@ export const pricing = {
 export const infrastructure = {
   eyebrow: 'Infrastructure & hosting, transparently priced',
   title: 'Know exactly what you’re paying for.',
-  body: 'With MHMS you don’t get a surprise server bill. On a subscription plan, hosting is bundled into your price. For larger groups that prefer to own their license, we also offer a one-time Enterprise (perpetual) option.',
+  body: 'With Serenentra you don’t get a surprise server bill. On a subscription plan, hosting is bundled into your price. For larger groups that prefer to own their license, we also offer a one-time Enterprise (perpetual) option.',
 
   // Licensing model selector (PRD 5.11A.1)
   licensing: {
@@ -453,8 +455,8 @@ export const infrastructure = {
 // ---------------------------------------------------------------------------
 export const comparison = {
   eyebrow: 'Why switch',
-  title: 'MHMS vs. traditional hotel software',
-  columns: ['MHMS', 'Traditional / Legacy PMS'],
+  title: 'Serenentra vs. traditional hotel software',
+  columns: ['Serenentra', 'Traditional / Legacy PMS'],
   rows: [
     { feature: 'Setup time', mhms: 'Days, guided onboarding', legacy: 'Weeks of installs & training' },
     { feature: 'Pricing transparency', mhms: 'Clear plans, hosting included', legacy: 'Hidden server & add-on fees' },
@@ -473,15 +475,15 @@ export const faq = {
   title: 'Questions, answered.',
   items: [
     {
-      q: 'What is MHMS and who is it for?',
-      a: 'MHMS (Master Hotel Management System) is an all-in-one cloud platform for running a hotel — front desk, bookings, housekeeping, payments and reporting. It’s built for independent hotels, B&Bs, motels, resorts, serviced apartments and multi-property groups.',
+      q: 'What is Serenentra and who is it for?',
+      a: 'Serenentra is an all-in-one cloud hotel management platform — front desk, bookings, housekeeping, payments and reporting in one place. It powers our hotel management system (MHMS) and is built for independent hotels, B&Bs, motels, resorts, serviced apartments and multi-property groups.',
     },
     {
       q: 'How long does onboarding/setup take?',
       a: 'Most properties are up and running within days. Our team guides you through setup, data import and staff training.',
     },
     {
-      q: 'Does MHMS work for multi-property hotel groups?',
+      q: 'Does Serenentra work for multi-property hotel groups?',
       a: 'Yes. The Enterprise plan includes Multi-Property Management — run every property from one centralized dashboard with group-wide reporting.',
     },
     {
@@ -490,7 +492,7 @@ export const faq = {
     },
     {
       q: 'Is there a free trial?',
-      a: 'Request a demo and our team will set you up so you can try MHMS with your own property data. [Confirm trial terms before launch.]',
+      a: 'Request a demo and our team will set you up so you can try Serenentra with your own property data. [Confirm trial terms before launch.]',
     },
     {
       q: 'Is server/hosting cost included in my price, or billed separately?',
@@ -513,7 +515,7 @@ export const faq = {
       a: 'We recommend a tier automatically based on your room count and concurrent staff logins, then confirm the right fit during onboarding. You can also use the estimator on this page.',
     },
     {
-      q: 'Does MHMS integrate with OTAs like Booking.com / Expedia?',
+      q: 'Does Serenentra integrate with OTAs like Booking.com / Expedia?',
       a: 'Yes. The Channel Manager syncs rates and availability across major OTAs in real time to prevent overbooking.',
     },
     {
@@ -529,7 +531,7 @@ export const faq = {
 export const demo = {
   eyebrow: 'Get started',
   title: 'Ready to simplify your hotel operations?',
-  subtitle: 'Request a demo and we’ll show you MHMS with your own property in mind. Our team replies within 1 business day.',
+  subtitle: 'Request a demo and we’ll show you Serenentra with your own property in mind. Our team replies within 1 business day.',
   roomOptions: ['1–10', '11–50', '51–200', '200+'],
   successMessage: 'Thanks — our team will be in touch within 1 business day.',
   contactNote: 'Prefer to talk now?',

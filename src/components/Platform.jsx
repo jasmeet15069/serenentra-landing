@@ -12,7 +12,7 @@ function StaticConstellation({ modules }) {
   const cx = 240
   const cy = 200
   return (
-    <svg viewBox="0 0 480 400" className="h-full w-full" role="img" aria-label="MHMS connects PMS, Booking Engine, Channel Manager, Payments and Reporting">
+    <svg viewBox="0 0 480 400" className="h-full w-full" role="img" aria-label="Serenentra connects PMS, Booking Engine, Channel Manager, Payments and Reporting">
       {modules.map((m, i) => {
         const a = (i / modules.length) * Math.PI * 2 - Math.PI / 2
         const x = cx + Math.cos(a) * 165
@@ -28,8 +28,8 @@ function StaticConstellation({ modules }) {
         )
       })}
       <circle cx={cx} cy={cy} r="46" fill="#C2613F" />
-      <text x={cx} y={cy} textAnchor="middle" dominantBaseline="middle" fill="#fff" style={{ fontSize: 16, fontWeight: 700 }}>
-        MHMS
+      <text x={cx} y={cy} textAnchor="middle" dominantBaseline="middle" fill="#fff" style={{ fontSize: 34, fontWeight: 700, fontFamily: 'Fraunces, Georgia, serif' }}>
+        S
       </text>
     </svg>
   )

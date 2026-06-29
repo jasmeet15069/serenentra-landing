@@ -77,7 +77,7 @@ export default function VideoModalMount() {
           <iframe
             className="h-full w-full"
             src={`${config.demoVideoEmbedUrl}?autoplay=1`}
-            title="MHMS product overview (placeholder video)"
+            title="Serenentra product overview (placeholder video)"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
           />

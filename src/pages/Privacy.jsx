@@ -5,7 +5,7 @@ export default function Privacy() {
   return (
     <LegalPage
       title="Privacy Policy"
-      intro="This Privacy Policy describes, at a high level, the kinds of information MHMS may collect and how it may be used. [Replace this entire document with policy text prepared and reviewed by a qualified lawyer before launch.]"
+      intro="This Privacy Policy describes, at a high level, the kinds of information Serenentra may collect and how it may be used. [Replace this entire document with policy text prepared and reviewed by a qualified lawyer before launch.]"
       sections={[
         { heading: 'Information We Collect', body: '[Placeholder] Describe the categories of personal and business information collected — e.g. contact details submitted through forms, account data, and usage/analytics data.' },
         { heading: 'How We Use Your Information', body: '[Placeholder] Describe the purposes for processing — e.g. responding to demo requests, providing the service, support, and product communications.' },

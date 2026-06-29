@@ -10,8 +10,8 @@
   <circle cx="980" cy="150" r="280" fill="#F8E0D5" opacity="0.7"/>
   <g transform="translate(90 150)">
     <rect width="64" height="64" rx="14" fill="#C2613F"/>
-    <text x="32" y="46" font-family="Georgia, serif" font-size="40" font-weight="700" fill="#FBF7F2" text-anchor="middle">M</text>
-    <text x="90" y="48" font-family="Georgia, serif" font-size="44" font-weight="700" fill="#2B211B">MHMS</text>
+    <text x="32" y="46" font-family="Georgia, serif" font-size="40" font-weight="700" fill="#FBF7F2" text-anchor="middle">S</text>
+    <text x="90" y="48" font-family="Georgia, serif" font-size="44" font-weight="700" fill="#2B211B">Serenentra</text>
   </g>
   <text x="90" y="350" font-family="Georgia, serif" font-size="72" font-weight="700" fill="#2B211B">Run your entire hotel</text>
   <text x="90" y="430" font-family="Georgia, serif" font-size="72" font-weight="700" fill="#C2613F">from one platform.</text>

@@ -39,7 +39,7 @@ export default function Footer() {
           <div>
             <span className="inline-flex items-center gap-2">
               <span className="grid h-8 w-8 place-items-center rounded-lg bg-clay-500 font-display text-base font-bold text-white">
-                M
+                S
               </span>
               <span className="font-display text-xl font-bold tracking-tight text-cream">{brand.name}</span>
             </span>

@@ -61,7 +61,7 @@ export default function Header() {
       }`}
     >
       <div className="container-mhms flex items-center justify-between gap-4">
-        <AnchorLink href="#main" aria-label="MHMS home" className="shrink-0">
+        <AnchorLink href="#main" aria-label="Serenentra home" className="shrink-0">
           <Logo />
         </AnchorLink>
 
