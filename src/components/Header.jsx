@@ -90,12 +90,6 @@ export default function Header() {
         </nav>
 
         <div className="hidden items-center gap-3 lg:flex">
-          <a
-            href={nav.loginHref}
-            className="text-sm font-semibold text-espresso/70 transition-colors hover:text-espresso"
-          >
-            Login
-          </a>
           <AnchorLink href={nav.ctaHref} className="btn-primary" analytics="cta_header" data-analytics="cta_header">
             {nav.ctaLabel}
           </AnchorLink>
