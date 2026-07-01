@@ -1,4 +1,4 @@
-import { useState } from 'react'
+﻿import { useState } from 'react'
 import { demo, config } from '../content'
 import Icon from './Icon'
 import { track } from '../lib/analytics'
@@ -14,6 +14,7 @@ import { track } from '../lib/analytics'
  *   inbox / Slack / WhatsApp / CRM — a live site must not silently lose leads.
  */
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+const API_URL = 'https://superadminhms.jazverse.online/api/demo-request'
 
 const empty = { name: '', email: '', phone: '', property: '', rooms: '', country: '', message: '' }
 
@@ -21,6 +22,8 @@ export default function DemoForm() {
   const [values, setValues] = useState(empty)
   const [errors, setErrors] = useState({})
   const [submitted, setSubmitted] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
+  const [serverError, setServerError] = useState('')
 
   const update = (k) => (e) => setValues((v) => ({ ...v, [k]: e.target.value }))
 
@@ -35,15 +38,25 @@ export default function DemoForm() {
     return Object.keys(next).length === 0
   }
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault()
     if (!validate()) return
-
-    // TODO(PRD 7.7): replace console.log with a POST to a real lead endpoint.
-    // eslint-disable-next-line no-console
-    console.log('[demo-request] (placeholder — NOT yet sent anywhere):', values)
-    track('demo_form_submit', { rooms: values.rooms })
-    setSubmitted(true)
+    setSubmitting(true)
+    setServerError('')
+    try {
+      const res = await fetch(API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(values),
+      })
+      if (!res.ok) throw new Error('server error')
+      track('demo_form_submit', { rooms: values.rooms })
+      setSubmitted(true)
+    } catch {
+      setServerError('Something went wrong — please email us at ' + config.salesEmail)
+    } finally {
+      setSubmitting(false)
+    }
   }
 
   const field = (id, label, opts = {}) => {
@@ -110,7 +123,7 @@ export default function DemoForm() {
               </span>
               <h3 className="mt-5 font-display text-2xl font-semibold">{demo.successMessage}</h3>
               <p className="mt-2 text-sm text-espresso/60">
-                We’ve received your request. (Demo build — submission was logged locally and not yet sent.)
+                We've received your details and our team will be in touch within 1 business day.
               </p>
             </div>
           ) : (
@@ -159,12 +172,15 @@ export default function DemoForm() {
                 </div>
               </div>
 
-              <button type="submit" className="btn-primary mt-5 w-full text-base" data-analytics="cta_demo_submit">
-                {demo.roomOptions ? 'Request a Demo' : 'Submit'}
-                <Icon name="arrow" className="h-4 w-4" />
+              {serverError && (
+                <p className="mt-3 rounded-lg bg-red-50 px-4 py-2 text-sm text-red-600">{serverError}</p>
+              )}
+              <button type="submit" disabled={submitting} className="btn-primary mt-5 w-full text-base disabled:opacity-60" data-analytics="cta_demo_submit">
+                {submitting ? 'Sending...' : 'Request a Demo'}
+                {!submitting && <Icon name="arrow" className="h-4 w-4" />}
               </button>
               <p className="mt-3 text-center text-xs text-espresso/45">
-                We’ll reply within 1 business day. No spam, ever.
+                We'll reply within 1 business day. No spam, ever.
               </p>
             </form>
           )}

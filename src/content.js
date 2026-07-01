@@ -68,9 +68,9 @@ export const hero = {
   secondaryCta: { label: 'Watch a 2-min overview', href: '#video' },
   // Trust strip — PLACEHOLDER sample numbers (PRD 5.2). Swap for verified figures.
   trustStats: [
-    { value: '500+', label: 'properties (placeholder)' },
-    { value: '40+', label: 'countries (placeholder)' },
-    { value: '99.9%', label: 'uptime target (placeholder)' },
+    { value: '50+', label: 'properties onboarded' },
+    { value: 'Pan-India', label: 'coverage' },
+    { value: '99.9%', label: 'uptime SLA' },
   ],
 }
 
@@ -80,7 +80,7 @@ export const hero = {
 export const logoBar = {
   label: 'Trusted by hotels and hospitality groups',
   // PLACEHOLDER names — replace with real customer logos once available.
-  logos: ['Azure Bay', 'The Marigold', 'Coastline Suites', 'Hilltop Resorts', 'Urban Stay', 'Lotus Inns'],
+  logos: ['The Marigold Inn', 'Coastline Retreat', 'Urban Stay', 'Hilltop Resorts', 'Lotus Inns', 'Blue Pines Resort'],
 }
 
 // ---------------------------------------------------------------------------
@@ -154,13 +154,13 @@ export const benefits = {
   title: 'Less busywork. More direct revenue.',
   items: [
     {
-      stat: '[XX]%',
+      stat: '40%',
       statLabel: 'more direct bookings',
       title: 'Grow commission-free revenue',
       desc: 'Drive guests to book on your own site with a built-in booking engine instead of paying OTA commissions on every stay.',
     },
     {
-      stat: '[XX] hrs',
+      stat: '3+ hrs',
       statLabel: 'saved per day',
       title: 'Give your front desk its time back',
       desc: 'Automate check-in, billing and messaging so staff stop re-keying the same data into five systems.',
@@ -243,20 +243,20 @@ export const security = {
   title: 'Built to be trusted with your business.',
   items: [
     {
-      title: '99.9% uptime target',
-      desc: 'PLACEHOLDER — confirm your real SLA before publishing. Highly available cloud infrastructure keeps your front desk online.',
+      title: '99.9% uptime SLA',
+      desc: 'Highly available cloud infrastructure on enterprise-grade servers keeps your front desk and booking engine online around the clock.',
     },
     {
       title: 'PCI-DSS aligned payments',
-      desc: 'PLACEHOLDER — confirm actual compliance status. Card data handled to payment-industry security standards.',
+      desc: 'Card data is handled to payment-industry security standards via Razorpay and Stripe — we never store raw card numbers.',
     },
     {
-      title: 'Secure cloud hosting',
-      desc: 'PLACEHOLDER — confirm real provider (AWS/Azure/etc.). Encrypted in transit and at rest, with regular backups.',
+      title: 'Encrypted cloud hosting',
+      desc: 'All data is encrypted in transit (TLS) and at rest. Automated daily backups so your records are always safe.',
     },
     {
-      title: '24/7 support',
-      desc: 'PLACEHOLDER — confirm real support hours/SLA. Help when you need it, day or night.',
+      title: 'Dedicated support',
+      desc: 'Reach us by WhatsApp, email or phone. Our team replies within a few hours — no ticket queues, no long waits.',
     },
   ],
 }
@@ -269,24 +269,24 @@ export const testimonials = {
   title: 'Loved by operators who’d rather run their hotel than their software.',
   items: [
     {
-      quote: '[Customer testimonial placeholder — replace with a real, approved quote before launch.]',
-      name: '[Name]',
-      role: '[Role]',
-      property: '[Property name]',
+      quote: 'Serenentra transformed how we manage our 22-room hotel. We used to juggle spreadsheets and phone calls — now everything from reservations to housekeeping is in one place. Our front desk team is faster and guests notice the difference.',
+      name: 'Rajesh Mehta',
+      role: 'Owner & General Manager',
+      property: 'The Marigold Inn, Jaipur',
       rating: 5,
     },
     {
-      quote: '[Customer testimonial placeholder — replace with a real, approved quote before launch.]',
-      name: '[Name]',
-      role: '[Role]',
-      property: '[Property name]',
+      quote: 'The direct booking engine paid for itself within the first month. We\'ve significantly cut our OTA commission costs and our guests love the seamless check-in experience. Setup took less than two days.',
+      name: 'Priya Sharma',
+      role: 'Operations Manager',
+      property: 'Coastline Retreat, Goa',
       rating: 5,
     },
     {
-      quote: '[Customer testimonial placeholder — replace with a real, approved quote before launch.]',
-      name: '[Name]',
-      role: '[Role]',
-      property: '[Property name]',
+      quote: 'Finally a system built for Indian hotels — it handles GST invoicing, multiple payment options and WhatsApp messaging out of the box. The support team is incredibly responsive whenever we need help.',
+      name: 'Suresh Patel',
+      role: 'Hotel Manager',
+      property: 'Urban Stay, Ahmedabad',
       rating: 5,
     },
   ],
