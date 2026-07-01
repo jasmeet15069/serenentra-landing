@@ -23,10 +23,10 @@ export const config = {
   showVmCalculator: true, // PRD 7.6
   licensingModel: 'both', // 'subscription' | 'both' — chosen: both (SixOrbit-style). PRD 5.11A.
   // Contact details (PRD 7.9, 5.13). WhatsApp uses intl format, digits only, no +.
-  whatsappNumber: '919891475624', // 91 (India) + 9891475624
+  whatsappNumber: '918799745618', // 91 (India) + 8799745618
   whatsappPrefill: "Hi, I'd like to know more about Serenentra",
-  salesPhone: '+91 98914 75624',
-  salesEmail: 'sales@serenentra.example',
+  salesPhone: '+91 87997 45618',
+  salesEmail: 'sales@serenentra.com',
   // PLACEHOLDER live-chat embed (PRD 7.11) — leave null to skip; no fake bubble.
   liveChat: null, // e.g. { provider: 'crisp', websiteId: 'xxxx' }
 }
