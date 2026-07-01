@@ -14,7 +14,7 @@ import { track } from '../lib/analytics'
  *   inbox / Slack / WhatsApp / CRM — a live site must not silently lose leads.
  */
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-const API_URL = 'https://superadminhms.jazverse.online/api/demo-request'
+const API_URL = 'https://hmsadmin.serenentra.com/api/demo-request'
 
 const empty = { name: '', email: '', phone: '', property: '', rooms: '', country: '', message: '' }
 
