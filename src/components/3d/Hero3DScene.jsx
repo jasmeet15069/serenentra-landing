@@ -1,113 +1,242 @@
-import { Suspense, useRef } from 'react'
-import { Canvas, useFrame } from '@react-three/fiber'
-import { Environment, Lightformer, Float, RoundedBox, ContactShadows, AdaptiveDpr } from '@react-three/drei'
-import * as THREE from 'three'
+// Pure SVG/SMIL animated entity-graph — replaces the WebGL hotel-tower scene.
+// No three.js / WebGL dependency; smooth on every device, zero GPU lag.
 
-/**
- * Hero 3D centerpiece (PRD 6A.2 #1) — abstract glass hotel tower + floating accent nodes.
- *
- * PERFORMANCE (PRD 6A.4): tuned to be cheap, especially on mobile —
- *  - NO `transmission` material (that needs an extra full render pass per frame). We use a
- *    cheap semi-transparent MeshStandardMaterial that still reads as frosted glass.
- *  - NO HDR `Environment preset` (those fetch a ~1-2MB map). Instead a tiny one-frame baked
- *    environment from <Lightformer>s gives reflections with zero network cost.
- *  - Contact shadow is baked once (`frames={1}`), pixel ratio is capped + AdaptiveDpr
- *    auto-degrades on slow devices, AA is off on phones, fewer nodes on phones.
- *  - Render loop pauses when the hero is off-screen (parent flips `active`).
- */
-
-const ACCENT = '#C2613F'
+const ACCENT      = '#C2613F'
 const ACCENT_SOFT = '#E29C7E'
+const ACCENT_PALE = '#F8E0D5'
+const BG_NODE     = '#FEF9F4'
+const TEXT_DARK   = '#5C2D1E'
 
-function Tower({ lowPower }) {
-  const group = useRef(null)
+const CX = 250, CY = 250
+const R  = 154   // orbit radius
 
-  useFrame((state, delta) => {
-    if (!group.current) return
-    // Idle auto-rotation (delta-based so it's frame-rate independent).
-    group.current.rotation.y += delta * 0.18
-    // Subtle mouse parallax, capped (no-op on touch where pointer stays at 0).
-    group.current.rotation.x = THREE.MathUtils.lerp(group.current.rotation.x, -state.pointer.y * 0.18, 0.05)
-    group.current.position.x = THREE.MathUtils.lerp(group.current.position.x, state.pointer.x * 0.25, 0.05)
-  })
+function toRad(deg) { return (deg * Math.PI) / 180 }
 
-  const floors = [0, 1, 2, 3, 4]
-  const nodeCount = lowPower ? 6 : 9
+const MODULES = [
+  { id: 'pms',       lines: ['Front Desk', '/ PMS'],      angle: -90  },
+  { id: 'booking',   lines: ['Booking', 'Engine'],         angle: -30  },
+  { id: 'channel',   lines: ['Channel', 'Manager'],        angle:  30  },
+  { id: 'payments',  lines: ['Payments'],                  angle:  90  },
+  { id: 'reporting', lines: ['Reporting'],                 angle: 150  },
+  { id: 'house',     lines: ['Housekeeping'],              angle: 210  },
+].map((m, i) => ({
+  ...m,
+  i,
+  x: +(CX + R * Math.cos(toRad(m.angle))).toFixed(1),
+  y: +(CY + R * Math.sin(toRad(m.angle))).toFixed(1),
+}))
 
+export default function Hero3DScene() {
   return (
-    <group ref={group} position={[0, -0.2, 0]}>
-      {floors.map((i) => {
-        const s = 1.9 - i * 0.18
-        return (
-          <RoundedBox key={i} args={[s, 0.55, s]} radius={0.08} smoothness={3} position={[0, i * 0.66 - 0.9, 0]}>
-            {/* Cheap frosted-glass look: transparent standard material (no transmission). */}
-            <meshStandardMaterial color="#ffffff" transparent opacity={0.72} roughness={0.15} metalness={0.2} envMapIntensity={1.3} />
-          </RoundedBox>
-        )
-      })}
-
-      {/* Accent crown */}
-      <RoundedBox args={[0.5, 0.5, 0.5]} radius={0.1} smoothness={3} position={[0, 2.55, 0]}>
-        <meshStandardMaterial color={ACCENT} emissive={ACCENT} emissiveIntensity={0.35} roughness={0.4} />
-      </RoundedBox>
-
-      {/* Tilted accent orbit ring */}
-      <mesh rotation={[Math.PI / 2.3, 0.2, 0]} position={[0, 0.1, 0]}>
-        <torusGeometry args={[2.3, 0.018, 8, 48]} />
-        <meshStandardMaterial color={ACCENT} emissive={ACCENT} emissiveIntensity={0.6} roughness={0.4} />
-      </mesh>
-
-      {/* Floating "room/data" nodes */}
-      {[...Array(nodeCount)].map((_, i) => {
-        const angle = (i / nodeCount) * Math.PI * 2
-        const r = 1.7 + (i % 2) * 0.5
-        return (
-          <Float key={i} speed={2} rotationIntensity={0.4} floatIntensity={0.9}>
-            <mesh position={[Math.cos(angle) * r, (i % 3) * 0.7 - 0.5, Math.sin(angle) * r]}>
-              <icosahedronGeometry args={[0.12 + (i % 3) * 0.03, 0]} />
-              <meshStandardMaterial
-                color={i % 2 ? ACCENT : ACCENT_SOFT}
-                emissive={i % 2 ? ACCENT : ACCENT_SOFT}
-                emissiveIntensity={0.5}
-                roughness={0.3}
-              />
-            </mesh>
-          </Float>
-        )
-      })}
-    </group>
-  )
-}
-
-export default function Hero3DScene({ active = true, dpr = [1, 2], lowPower = false }) {
-  return (
-    <Canvas
-      dpr={dpr}
-      frameloop={active ? 'always' : 'demand'}
-      // Allow R3F to drop resolution on slow frames, then AdaptiveDpr applies it.
-      performance={{ min: 0.5 }}
-      camera={{ position: [0, 0.5, 6], fov: 42 }}
-      gl={{ antialias: !lowPower, alpha: true, powerPreference: 'high-performance' }}
-      style={{ background: 'transparent' }}
+    <svg
+      viewBox="0 0 500 500"
+      className="h-full w-full"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
     >
-      <Suspense fallback={null}>
-        <ambientLight intensity={0.6} />
-        <hemisphereLight args={['#ffffff', '#e6d2bf', 0.6]} />
-        <directionalLight position={[4, 6, 4]} intensity={1.1} />
-        <directionalLight position={[-5, 2, -3]} intensity={0.4} color={ACCENT_SOFT} />
+      <defs>
+        {/* Hub glow filter */}
+        <filter id="hglow" x="-60%" y="-60%" width="220%" height="220%">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
+          <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+        </filter>
+        {/* Dot glow filter */}
+        <filter id="dglow" x="-60%" y="-60%" width="220%" height="220%">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="3.5" result="blur" />
+          <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+        </filter>
+        {/* Hub gradient */}
+        <radialGradient id="hubGrad" cx="42%" cy="38%" r="62%">
+          <stop offset="0%"   stopColor="#D97B54" />
+          <stop offset="100%" stopColor="#A84E30" />
+        </radialGradient>
+        {/* Ambient halo */}
+        <radialGradient id="haloGrad" cx="50%" cy="50%" r="50%">
+          <stop offset="0%"   stopColor={ACCENT} stopOpacity="0.18" />
+          <stop offset="100%" stopColor={ACCENT} stopOpacity="0"    />
+        </radialGradient>
+        {/* Node circle highlight */}
+        <radialGradient id="nodeGrad" cx="40%" cy="35%" r="60%">
+          <stop offset="0%"   stopColor="#ffffff"    stopOpacity="0.9" />
+          <stop offset="100%" stopColor={ACCENT_PALE} stopOpacity="0.6" />
+        </radialGradient>
+      </defs>
 
-        <Tower lowPower={lowPower} />
+      {/* ── Ambient halo behind hub ─────────────────────────────────────── */}
+      <circle cx={CX} cy={CY} r="200" fill="url(#haloGrad)" />
 
-        <ContactShadows frames={1} position={[0, -1.3, 0]} opacity={0.35} scale={8} blur={2.6} far={3} color="#2B211B" />
+      {/* ── Slow-rotating outer hexagon ring ───────────────────────────── */}
+      <polygon
+        points={MODULES.map((m) => `${m.x},${m.y}`).join(' ')}
+        fill="none"
+        stroke={ACCENT}
+        strokeWidth="0.9"
+        strokeOpacity="0.18"
+        strokeDasharray="7 5"
+      >
+        <animateTransform
+          attributeName="transform"
+          type="rotate"
+          from={`0 ${CX} ${CY}`}
+          to={`360 ${CX} ${CY}`}
+          dur="90s"
+          repeatCount="indefinite"
+        />
+      </polygon>
 
-        {/* Tiny baked env for glass reflections — rendered once, no HDR download. */}
-        <Environment frames={1} resolution={64}>
-          <Lightformer intensity={1.4} position={[3, 3, 4]} scale={4} />
-          <Lightformer intensity={0.7} color={ACCENT_SOFT} position={[-4, 1, -2]} scale={4} />
-        </Environment>
+      {/* ── Animated dashed spokes hub → modules ───────────────────────── */}
+      {MODULES.map((m) => (
+        <line
+          key={m.id + '-spoke'}
+          x1={CX} y1={CY} x2={m.x} y2={m.y}
+          stroke={ACCENT_SOFT}
+          strokeWidth="1.4"
+          strokeOpacity="0.5"
+          strokeDasharray="5 4"
+          strokeLinecap="round"
+        >
+          <animate
+            attributeName="stroke-dashoffset"
+            from="9"
+            to="0"
+            dur={`${1.7 + m.i * 0.18}s`}
+            repeatCount="indefinite"
+          />
+        </line>
+      ))}
 
-        <AdaptiveDpr pixelated />
-      </Suspense>
-    </Canvas>
+      {/* ── Travelling pulse dots hub → modules ────────────────────────── */}
+      {MODULES.map((m) => (
+        <circle key={m.id + '-dot'} r="5.5" fill={ACCENT} filter="url(#dglow)" opacity="0.88">
+          <animateMotion
+            dur={`${2.4 + m.i * 0.28}s`}
+            repeatCount="indefinite"
+            begin={`-${m.i * 0.4}s`}
+            path={`M ${CX},${CY} L ${m.x},${m.y}`}
+            keyPoints="0;1"
+            keyTimes="0;1"
+            calcMode="linear"
+          />
+        </circle>
+      ))}
+
+      {/* ── Module nodes ───────────────────────────────────────────────── */}
+      {MODULES.map((m) => (
+        <g key={m.id} transform={`translate(${m.x},${m.y})`}>
+          {/* float ±6 px on Y */}
+          <g>
+            <animateTransform
+              attributeName="transform"
+              type="translate"
+              values={`0,0; 0,-6; 0,0`}
+              dur={`${2.9 + m.i * 0.42}s`}
+              repeatCount="indefinite"
+              begin={`-${m.i * 0.55}s`}
+            />
+
+            {/* Drop shadow */}
+            <circle cx="0" cy="5" r="35" fill="#2B211B" fillOpacity="0.07" />
+
+            {/* Node fill */}
+            <circle cx="0" cy="0" r="35" fill="url(#nodeGrad)" />
+
+            {/* Node border */}
+            <circle cx="0" cy="0" r="35" fill="none" stroke={ACCENT_SOFT} strokeWidth="2" />
+
+            {/* Subtle inner ring */}
+            <circle cx="0" cy="0" r="35" fill="none" stroke={ACCENT} strokeWidth="0.7" strokeOpacity="0.3" />
+
+            {/* Pulse ring */}
+            <circle cx="0" cy="0" r="35" fill="none" stroke={ACCENT} strokeWidth="4" strokeOpacity="0">
+              <animate
+                attributeName="r"
+                values="35;46;35"
+                dur={`${3.5 + m.i * 0.4}s`}
+                repeatCount="indefinite"
+                begin={`-${m.i * 0.6}s`}
+              />
+              <animate
+                attributeName="stroke-opacity"
+                values="0;0.18;0"
+                dur={`${3.5 + m.i * 0.4}s`}
+                repeatCount="indefinite"
+                begin={`-${m.i * 0.6}s`}
+              />
+            </circle>
+
+            {/* Labels */}
+            {m.lines.map((line, li) => (
+              <text
+                key={li}
+                x="0"
+                y={(li - (m.lines.length - 1) / 2) * 13.5}
+                textAnchor="middle"
+                dominantBaseline="central"
+                fontSize="11.5"
+                fontFamily='"Plus Jakarta Sans", ui-sans-serif, sans-serif'
+                fontWeight="700"
+                fill={TEXT_DARK}
+              >
+                {line}
+              </text>
+            ))}
+
+            {/* Accent dot below label */}
+            <circle
+              cx="0"
+              cy={m.lines.length > 1 ? 23 : 17}
+              r="2.8"
+              fill={ACCENT_SOFT}
+              opacity="0.75"
+            />
+          </g>
+        </g>
+      ))}
+
+      {/* ── Hub node ────────────────────────────────────────────────────── */}
+      {/* Breathing glow */}
+      <circle cx={CX} cy={CY} r="62" fill={ACCENT} filter="url(#hglow)">
+        <animate
+          attributeName="opacity"
+          values="0.09;0.2;0.09"
+          dur="3.2s"
+          repeatCount="indefinite"
+        />
+      </circle>
+
+      {/* Shadow */}
+      <ellipse cx={CX} cy={CY + 7} rx="48" ry="14" fill="#2B211B" fillOpacity="0.12" />
+
+      {/* Hub circle */}
+      <circle cx={CX} cy={CY} r="47" fill="url(#hubGrad)" />
+
+      {/* Hub highlight ring */}
+      <circle cx={CX} cy={CY} r="47" fill="none" stroke="rgba(255,255,255,0.22)" strokeWidth="1.8" />
+
+      {/* Hub text */}
+      <text
+        x={CX} y={CY - 8}
+        textAnchor="middle"
+        dominantBaseline="central"
+        fontSize="13.5"
+        fontFamily='"Plus Jakarta Sans", ui-sans-serif, sans-serif'
+        fontWeight="800"
+        fill="white"
+      >
+        Serenentra
+      </text>
+      <text
+        x={CX} y={CY + 10}
+        textAnchor="middle"
+        dominantBaseline="central"
+        fontSize="9"
+        fontFamily='"Plus Jakarta Sans", ui-sans-serif, sans-serif'
+        fontWeight="500"
+        fill="rgba(255,255,255,0.75)"
+        letterSpacing="1.2"
+      >
+        PLATFORM
+      </text>
+    </svg>
   )
 }
