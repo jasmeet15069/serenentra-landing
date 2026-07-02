@@ -6,18 +6,33 @@ import Logo from './Logo'
 import Icon from './Icon'
 import { track } from '../lib/analytics'
 
+const API_URL = 'https://hmsadmin.serenentra.com/api/newsletter-subscribe'
+
 /** Footer (PRD 5.14): logo + tagline, link columns, socials, newsletter, click-to-call, copyright. */
 export default function Footer() {
   const [email, setEmail] = useState('')
   const [done, setDone] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
+  const [error, setError] = useState('')
 
-  const onNewsletter = (e) => {
+  const onNewsletter = async (e) => {
     e.preventDefault()
-    // TODO: wire newsletter signup to a real endpoint (PRD 7.1 — same pattern as demo form).
-    // eslint-disable-next-line no-console
-    console.log('[newsletter] signup (placeholder, not yet wired):', email)
-    track('newsletter_signup')
-    setDone(true)
+    setSubmitting(true)
+    setError('')
+    try {
+      const res = await fetch(API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      })
+      if (!res.ok) throw new Error('server error')
+      track('newsletter_signup')
+      setDone(true)
+    } catch {
+      setError('Something went wrong — try again.')
+    } finally {
+      setSubmitting(false)
+    }
   }
 
   const renderLink = (l) =>
@@ -69,22 +84,26 @@ export default function Footer() {
                 Get product updates
               </label>
               {done ? (
-                <p className="text-sm text-clay-200">Thanks — you’re subscribed. (Placeholder — wire to a real list.)</p>
+                <p className="text-sm text-clay-200">Thanks — you’re subscribed!</p>
               ) : (
-                <div className="flex gap-2">
-                  <input
-                    id="nl-email"
-                    type="email"
-                    required
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="you@hotel.com"
-                    className="min-w-0 flex-1 rounded-full border border-cream/20 bg-cream/5 px-4 py-2 text-sm text-cream placeholder:text-cream/40 focus:border-clay-300 focus:outline-none"
-                  />
-                  <button type="submit" className="rounded-full bg-clay-500 px-4 py-2 text-sm font-semibold text-white hover:bg-clay-400">
-                    Join
-                  </button>
-                </div>
+                <>
+                  <div className="flex gap-2">
+                    <input
+                      id="nl-email"
+                      type="email"
+                      required
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder="you@hotel.com"
+                      disabled={submitting}
+                      className="min-w-0 flex-1 rounded-full border border-cream/20 bg-cream/5 px-4 py-2 text-sm text-cream placeholder:text-cream/40 focus:border-clay-300 focus:outline-none disabled:opacity-60"
+                    />
+                    <button type="submit" disabled={submitting} className="rounded-full bg-clay-500 px-4 py-2 text-sm font-semibold text-white hover:bg-clay-400 disabled:opacity-60">
+                      {submitting ? ‘…’ : ‘Join’}
+                    </button>
+                  </div>
+                  {error && <p className="mt-1 text-xs text-red-300">{error}</p>}
+                </>
               )}
             </form>
           </div>
@@ -108,7 +127,7 @@ export default function Footer() {
           </p>
           <div className="flex items-center gap-4">
             {footer.socials.map((s) => (
-              <a key={s.label} href={s.href} className="text-xs text-cream/60 transition-colors hover:text-cream">
+              <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer" className="text-xs text-cream/60 transition-colors hover:text-cream">
                 {s.label}
               </a>
             ))}

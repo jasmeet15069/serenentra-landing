@@ -576,8 +576,7 @@ export const footer = {
     },
   ],
   socials: [
-    { label: 'LinkedIn', href: '#' },
-    { label: 'Twitter', href: '#' },
-    { label: 'Instagram', href: '#' },
+    { label: 'LinkedIn', href: 'https://www.linkedin.com/in/serenentra-global-47807541b/' },
+    { label: 'Instagram', href: 'https://www.instagram.com/serenentra/' },
   ],
 }
