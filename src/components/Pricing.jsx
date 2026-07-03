@@ -35,7 +35,7 @@ export default function Pricing() {
             onClick={() => setAnnual((v) => !v)}
             className={`relative h-7 w-12 rounded-full transition-colors ${annual ? 'bg-clay-500' : 'bg-espresso/20'}`}
           >
-            <span className={`absolute top-1 h-5 w-5 rounded-full bg-white shadow transition-transform ${annual ? 'translate-x-6' : 'translate-x-1'}`} />
+            <span className={`absolute left-0 top-1 h-5 w-5 rounded-full bg-white shadow transition-transform ${annual ? 'translate-x-6' : 'translate-x-1'}`} />
           </button>
           <span className={`text-sm font-semibold ${annual ? 'text-espresso' : 'text-espresso/45'}`}>
             Annual
