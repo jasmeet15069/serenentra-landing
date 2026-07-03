@@ -99,7 +99,7 @@ export default function Footer() {
                       className="min-w-0 flex-1 rounded-full border border-cream/20 bg-cream/5 px-4 py-2 text-sm text-cream placeholder:text-cream/40 focus:border-clay-300 focus:outline-none disabled:opacity-60"
                     />
                     <button type="submit" disabled={submitting} className="rounded-full bg-clay-500 px-4 py-2 text-sm font-semibold text-white hover:bg-clay-400 disabled:opacity-60">
-                      {submitting ? ‘…’ : ‘Join’}
+                      {submitting ? '…' : 'Join'}
                     </button>
                   </div>
                   {error && <p className="mt-1 text-xs text-red-300">{error}</p>}
