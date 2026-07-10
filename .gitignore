@@ -10,3 +10,6 @@ dist-ssr
 npm-debug.log*
 
 .vercel
+
+# Strix pentest scan output (may contain sensitive findings)
+strix_runs/
